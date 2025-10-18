@@ -1,21 +1,23 @@
-// Classe Library
+import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+
 class Library {
+
     private List<Lendable> items;
+    private static final Logger logger = Logger.getLogger(Book.class.getName());
 
     public Library() {
         items = new ArrayList<>();
     }
-
     public void addItem(Lendable item) {
         items.add(item);
     }
-
     public void removeItem(Lendable item) {
         items.remove(item);
     }
+
 
     // Méthode volontairement incorrecte pour TP
     public List<Lendable> getAvailableItems() {
@@ -26,15 +28,20 @@ class Library {
         return availableItems;
     }
 
-    // Méthode longue pour générer complexité
     public void listAllItems() {
         for (Lendable item : items) {
-            if (item instanceof Book) {
-                Book b = (Book) item;
-                System.out.println(b.getTitle() + " by " + b.getAuthor());
-            } else {
-                System.out.println("Unknown item type");
-            }
+            printItemDetails(item);
         }
     }
+
+    private void printItemDetails(Lendable item) {
+        if (item instanceof Book) {
+            Book b = (Book) item;
+            System.out.println(b.getTitle() + " by " + b.getAuthor());
+        } else {
+            System.out.println("Unknown item type");
+        }
+    }
+
+
 }

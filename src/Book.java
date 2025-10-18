@@ -1,23 +1,26 @@
-// Classe représentant un livre classique
-class Book implements Lendable {
+import java.util.logging.Logger;
+
+public class Book implements Lendable {
+
+    private static final Logger logger = Logger.getLogger(Book.class.getName());
+
     private String title;
     private String author;
     private boolean borrowed;
 
-    // Constructeur
     public Book(String title, String author) {
         this.title = title;
         this.author = author;
         this.borrowed = false;
     }
 
-    // Méthodes de l'interface
     @Override
     public void borrow() {
         if (!borrowed) {
             borrowed = true;
+            logger.info("Book borrowed: " + title);
         } else {
-            System.out.println("This book is already borrowed.");
+            logger.warning("Attempted to borrow already borrowed book: " + title);
         }
     }
 
@@ -25,8 +28,9 @@ class Book implements Lendable {
     public void returnItem() {
         if (borrowed) {
             borrowed = false;
+            logger.info("Book returned: " + title);
         } else {
-            System.out.println("This book was not borrowed.");
+            logger.warning("Attempted to return a book that was not borrowed: " + title);
         }
     }
 
@@ -35,16 +39,25 @@ class Book implements Lendable {
     public String getAuthor() { return author; }
     public boolean isBorrowed() { return borrowed; }
 
-    // Méthode volontairement complexe pour le TP
     public void complexMethodExample(int n) {
         for (int i = 0; i < n; i++) {
-            if (i % 2 == 0) {
-                System.out.println(i + " is even");
-            } else if (i % 3 == 0) {
-                System.out.println(i + " divisible by 3");
-            } else {
-                System.out.println(i + " something else");
-            }
+            logNumberType(i);
         }
+    }
+
+    private void logNumberType(int i) {
+        if (i % 2 == 0) {
+            logger.info(i + " is even");
+        } else if (i % 3 == 0) {
+            logger.info(i + " divisible by 3");
+        } else {
+            logger.info(i + " something else");
+        }
+    }
+
+
+    // Méthode pour vérifier si le livre est disponible
+    public boolean getAvailableItems() {
+        return !borrowed;
     }
 }
