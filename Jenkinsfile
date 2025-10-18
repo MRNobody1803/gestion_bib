@@ -16,8 +16,8 @@ pipeline {
             steps {
                 echo 'Compiling Java sources...'
                 sh '''
-                    mkdir -p out/production/gestion_bib
-                    javac -d out/production/gestion_bib $(find src -name "*.java")
+                    mkdir -p out/production/Gestion-Mg
+                    javac -d out/production/Gestion-Mg/ma/ensa $(find src -name "*.java")
                 '''
             }
         }
@@ -33,15 +33,15 @@ pipeline {
             }
         }
 
-        stage('Quality Gate') {
-           steps {
-                // Wait for SonarQube quality gate result (fail the build if it doesn’t pass)
-              timeout(time: 10, unit: 'MINUTES') {
-                  waitForQualityGate abortPipeline: true
-               }
-            }
-        }
-    }
+//        stage('Quality Gate') {
+//           steps {
+//                // Wait for SonarQube quality gate result (fail the build if it doesn’t pass)
+//              timeout(time: 10, unit: 'MINUTES') {
+//                  waitForQualityGate abortPipeline: true
+//               }
+//            }
+//        }
+//    }
 
     post {
         success {

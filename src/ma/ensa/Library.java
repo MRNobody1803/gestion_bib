@@ -1,3 +1,5 @@
+package ma.ensa;
+
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +8,7 @@ import java.util.List;
 class Library {
 
     private List<Lendable> items;
-    private static final Logger logger = Logger.getLogger(Book.class.getName());
+    private static final Logger logger = Logger.getLogger(Library.class.getName());
 
     public Library() {
         items = new ArrayList<>();

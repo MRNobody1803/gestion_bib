@@ -1,3 +1,5 @@
+package ma.ensa;
+
 // Classe représentant un livre numérique
 class DigitalBook extends Book {
     private int fileSizeMB;

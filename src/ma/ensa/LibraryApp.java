@@ -1,3 +1,5 @@
+package ma.ensa;
+
 import java.util.logging.Logger;
 
 public class LibraryApp {
@@ -15,7 +17,7 @@ public class LibraryApp {
         library.addItem(book2);
         library.addItem(book3);
 
-        logger.info("List of Books in the Library:");
+        logger.info("List of Books in the ma.ensa.Library:");
         library.listAllItems();  // utilise la méthode refactorisée
 
         // Méthode complexe utilisée pour l’analyse SonarQube

@@ -1,3 +1,5 @@
+package ma.ensa;
+
 import java.util.logging.Logger;
 
 public class Book implements Lendable {
@@ -18,19 +20,19 @@ public class Book implements Lendable {
     public void borrow() {
         if (!borrowed) {
             borrowed = true;
-            logger.info("Book borrowed: " + title);
+            logger.info(() -> "ma.ensa.Book borrowed: " + title);
         } else {
-            logger.warning("Attempted to borrow already borrowed book: " + title);
+            logger.warning(() -> "Attempted to borrow already borrowed book: " + title);
         }
     }
 
     @Override
     public void returnItem() {
-        if (borrowed) {
+        if (isBorrowed()) {
             borrowed = false;
-            logger.info("Book returned: " + title);
+            logger.info(() -> "ma.ensa.Book returned: " + title);
         } else {
-            logger.warning("Attempted to return a book that was not borrowed: " + title);
+            logger.warning(() -> "Attempted to return a book that was not borrowed: " + title);
         }
     }
 
@@ -47,11 +49,11 @@ public class Book implements Lendable {
 
     private void logNumberType(int i) {
         if (i % 2 == 0) {
-            logger.info(i + " is even");
+            logger.info(() -> i + " is even");
         } else if (i % 3 == 0) {
-            logger.info(i + " divisible by 3");
+            logger.info(() -> i + " divisible by 3");
         } else {
-            logger.info(i + " something else");
+            logger.info(() -> i + " something else");
         }
     }
 
