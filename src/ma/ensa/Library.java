@@ -8,8 +8,6 @@ import java.util.List;
 class Library {
 
     private List<Lendable> items;
-    private static final Logger logger = Logger.getLogger(Library.class.getName());
-
     public Library() {
         items = new ArrayList<>();
     }
