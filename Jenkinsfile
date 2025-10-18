@@ -25,7 +25,10 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQb') {  // Must match your SonarQube server name in Jenkins → Manage Jenkins → System
-                    sh 'sonar-scanner'
+                    script {
+                            def scannerHome = tool 'SonarScanner'
+                            sh "${scannerHome}/bin/sonar-scanner"
+                            }
                 }
             }
         }
