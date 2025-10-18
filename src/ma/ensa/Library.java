@@ -1,6 +1,5 @@
 package ma.ensa;
 
-import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
