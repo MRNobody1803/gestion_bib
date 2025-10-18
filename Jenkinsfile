@@ -12,13 +12,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                // This ensures Jenkins pulls the latest code from your GitHub repo
-                git branch: 'main', url: 'https://github.com/MRNobody863/gestion_bib.git'
-            }
-        }
-
         stage('Compile Java') {
             steps {
                 echo 'Compiling Java sources...'
