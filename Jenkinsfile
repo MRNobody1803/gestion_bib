@@ -27,13 +27,13 @@ pipeline {
             steps {
                 echo '📊 Running CKJM analysis...'
                 sh '''
-                    # Assure-toi que ckjm-1.8.jar est dans le répertoire Jenkins workspace
+                    # Download CKJM if not present
                     if [ ! -f ckjm-1.8.jar ]; then
                         echo "Downloading CKJM..."
-                        wget https://www.spinellis.gr/sw/ckjm/ckjm-1.8.jar
+                        curl -L -o ckjm-1.8.jar https://www.spinellis.gr/sw/ckjm/ckjm-1.8.jar
                     fi
 
-                    # Exécution de CKJM sur les classes compilées
+                    # Run CKJM on compiled classes
                     java -jar ckjm-1.8.jar bin/library/**/*.class > metrics.txt
                     echo "Metrics generated in metrics.txt"
                 '''
