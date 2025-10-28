@@ -16,6 +16,7 @@ pipeline {
             steps {
                 echo '⚙️ Compiling Java sources...'
                 sh '''
+                    cd gestion_bib
                     mkdir -p bin
                     javac -d bin $(find src/library -name "*.java")
                 '''
