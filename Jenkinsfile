@@ -28,40 +28,58 @@ pipeline {
                 echo '📊 Running CKJM analysis...'
                 sh '''
                     set -e
+                    cd gestion_bib
 
-                    # Clean previous metrics if any
-                    rm -f metrics.txt
+                    # Run CKJM with BCEL in classpath
+                    echo "Running metrics analysis..."
+                    java -cp ckjm-2.4.jar:bcel-6.5.0.jar:bin gr.spinellis.ckjm.MetricsFilter bin/library/**/*.class > metrics.txt
 
-                    # Download CKJM JAR if missing
-                    if [ ! -f ckjm-1.9.jar ]; then
-                        echo "Downloading CKJM (Java Metrics Tool)..."
-                        curl -L -o ckjm-1.9.jar https://github.com/dspinellis/ckjm/releases/download/1.9/ckjm-1.9.jar
-                    fi
-
-                    # Verify jar file integrity (basic check)
-                    if ! file ckjm-1.9.jar | grep -q 'Java archive'; then
-                        echo "❌ Download failed or invalid JAR file content."
-                        ls -lh ckjm-1.9.jar
+                    # Verify metrics were generated
+                    if [ ! -s metrics.txt ]; then
+                        echo "❌ Metrics file is empty"
                         exit 1
                     fi
 
-                    # Run CKJM
-                    echo "Running metrics analysis..."
-                    java -jar ckjm-1.9.jar out/production/Gestion-Mg/**/*.class > metrics.txt
-
                     echo "✅ Metrics successfully generated → metrics.txt"
+                    echo "📈 Summary of analyzed classes:"
+                    awk '{print "  - " $1}' metrics.txt | head -10
                 '''
             }
         }
 
-
+        stage('Analyze Metrics') {
+            steps {
+                echo '🔍 Analyzing code quality metrics...'
+                sh '''
+                    cd gestion_bib
+                    echo "==================== CKJM Metrics Report ===================="
+                    echo ""
+                    echo "Classes with HIGH COMPLEXITY (WMC > 10):"
+                    awk '$2 > 10 {print "  ⚠️  " $1 " → WMC=" $2}' metrics.txt || echo "  ✅ None found"
+                    echo ""
+                    echo "Classes with HIGH COUPLING (CBO > 8):"
+                    awk '$5 > 8 {print "  ⚠️  " $1 " → CBO=" $5}' metrics.txt || echo "  ✅ None found"
+                    echo ""
+                    echo "Classes with HIGH RFC (RFC > 20):"
+                    awk '$6 > 20 {print "  ⚠️  " $1 " → RFC=" $6}' metrics.txt || echo "  ✅ None found"
+                    echo ""
+                    echo "Classes with POOR COHESION (LCOM > 5):"
+                    awk '$7 > 5 {print "  ⚠️  " $1 " → LCOM=" $7}' metrics.txt || echo "  ✅ None found"
+                    echo ""
+                    echo "============================================================="
+                '''
+            }
+        }
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQb') {
-                    script {
-                        def scannerHome = tool 'SonarScanner'
-                        sh "${scannerHome}/bin/sonar-scanner"
+                echo '🔎 Running SonarQube analysis...'
+                script {
+                    dir('gestion_bib') {
+                        withSonarQubeEnv('SonarQb') {
+                            def scannerHome = tool 'SonarScanner'
+                            sh "${scannerHome}/bin/sonar-scanner"
+                        }
                     }
                 }
             }
@@ -79,11 +97,16 @@ pipeline {
 
     post {
         success {
-            echo '✅ Compilation, CKJM et analyse SonarQube réussies !'
-            archiveArtifacts artifacts: 'metrics.txt', onlyIfSuccessful: true
+            echo '✅ ✅ ✅ Pipeline completed successfully! ✅ ✅ ✅'
+            echo '📊 Compilation, CKJM metrics, and SonarQube analysis succeeded!'
+            archiveArtifacts artifacts: 'gestion_bib/metrics.txt', allowEmptyArchive: false, onlyIfSuccessful: true
         }
         failure {
-            echo '❌ Échec lors de la compilation ou de l’analyse.'
+            echo '❌ ❌ ❌ Pipeline failed! ❌ ❌ ❌'
+            echo '🔍 Check the logs above for details.'
+        }
+        always {
+            echo '🧹 Cleaning up workspace...'
         }
     }
 }
