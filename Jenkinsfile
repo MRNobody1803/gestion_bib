@@ -71,26 +71,7 @@ pipeline {
             }
         }
 
-
-    }
-
-    post {
-        success {
-            echo '✅ ✅ ✅ Pipeline completed successfully! ✅ ✅ ✅'
-            echo '📊 Compilation, CKJM metrics, and SonarQube analysis succeeded!'
-            archiveArtifacts artifacts: 'gestion_bib/metrics.txt', allowEmptyArchive: false, onlyIfSuccessful: true
-        }
-        failure {
-            echo '❌ ❌ ❌ Pipeline failed! ❌ ❌ ❌'
-            echo '🔍 Check the logs above for details.'
-        }
-        always {
-            echo '🧹 Cleaning up workspace...'
-        }
-    }
-}
-
-     /*   stage('SonarQube Analysis') {
+        /* stage('SonarQube Analysis') {
             steps {
                 echo '🔎 Running SonarQube analysis...'
                 script {
@@ -102,8 +83,7 @@ pipeline {
                     }
                 }
             }
-        }
-*\
+        } */
 
         // Optionnel : Activer le Quality Gate
         // stage('Quality Gate') {
@@ -113,3 +93,21 @@ pipeline {
         //         }
         //     }
         // }
+
+    }
+
+    post {
+        success {
+            echo '✅ ✅ ✅ Pipeline completed successfully! ✅ ✅ ✅'
+            echo '📊 Compilation, CKJM metrics succeeded!'
+            archiveArtifacts artifacts: 'gestion_bib/metrics.txt', allowEmptyArchive: false, onlyIfSuccessful: true
+        }
+        failure {
+            echo '❌ ❌ ❌ Pipeline failed! ❌ ❌ ❌'
+            echo '🔍 Check the logs above for details.'
+        }
+        always {
+            echo '🧹 Cleaning up workspace...'
+        }
+    }
+}
