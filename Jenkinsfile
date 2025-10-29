@@ -71,28 +71,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                echo '🔎 Running SonarQube analysis...'
-                script {
-                    dir('gestion_bib') {
-                        withSonarQubeEnv('SonarQb') {
-                            def scannerHome = tool 'SonarScanner'
-                            sh "${scannerHome}/bin/sonar-scanner"
-                        }
-                    }
-                }
-            }
-        }
 
-        // Optionnel : Activer le Quality Gate
-        // stage('Quality Gate') {
-        //     steps {
-        //         timeout(time: 10, unit: 'MINUTES') {
-        //             waitForQualityGate abortPipeline: true
-        //         }
-        //     }
-        // }
     }
 
     post {
@@ -110,3 +89,27 @@ pipeline {
         }
     }
 }
+
+     /*   stage('SonarQube Analysis') {
+            steps {
+                echo '🔎 Running SonarQube analysis...'
+                script {
+                    dir('gestion_bib') {
+                        withSonarQubeEnv('SonarQb') {
+                            def scannerHome = tool 'SonarScanner'
+                            sh "${scannerHome}/bin/sonar-scanner"
+                        }
+                    }
+                }
+            }
+        }
+*\
+
+        // Optionnel : Activer le Quality Gate
+        // stage('Quality Gate') {
+        //     steps {
+        //         timeout(time: 10, unit: 'MINUTES') {
+        //             waitForQualityGate abortPipeline: true
+        //         }
+        //     }
+        // }
