@@ -94,7 +94,7 @@ pipeline {
         success {
             echo '✅ ✅ ✅ Pipeline completed successfully! ✅ ✅ ✅'
             echo '📊 Compilation, CKJM metrics succeeded!'
-            archiveArtifacts artifacts: 'gestion_bib/metrics.txt', allowEmptyArchive: false, onlyIfSuccessful: true
+            archiveArtifacts artifacts: 'gestion_bib/metrics.txt, gestion_bib/metrics-table-report.txt', allowEmptyArchive: false, onlyIfSuccessful: true
         }
         failure {
             echo '❌ ❌ ❌ Pipeline failed! ❌ ❌ ❌'
