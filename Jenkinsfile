@@ -52,30 +52,6 @@ pipeline {
                 echo '🔍 Analyzing code quality metrics...'
                 sh '''
                     cd gestion_bib
-                    echo "==================== CKJM Metrics Report ===================="
-                    echo ""
-                    echo "Classes with HIGH COMPLEXITY (WMC > 10):"
-                    awk '$2 > 10 {print "  ⚠️  " $1 " → WMC=" $2}' metrics.txt || echo "  ✅ None found"
-                    echo ""
-                    echo "Classes with HIGH COUPLING (CBO > 8):"
-                    awk '$5 > 8 {print "  ⚠️  " $1 " → CBO=" $5}' metrics.txt || echo "  ✅ None found"
-                    echo ""
-                    echo "Classes with HIGH RFC (RFC > 20):"
-                    awk '$6 > 20 {print "  ⚠️  " $1 " → RFC=" $6}' metrics.txt || echo "  ✅ None found"
-                    echo ""
-                    echo "Classes with POOR COHESION (LCOM > 5):"
-                    awk '$7 > 5 {print "  ⚠️  " $1 " → LCOM=" $7}' metrics.txt || echo "  ✅ None found"
-                    echo ""
-                    echo "============================================================="
-                '''
-            }
-        }
-
-        stage('Analyze Metrics') {
-            steps {
-                echo '🔍 Analyzing code quality metrics...'
-                sh '''
-                    cd gestion_bib
 
                     # Make script executable
                     chmod +x analyze-metrics.sh
