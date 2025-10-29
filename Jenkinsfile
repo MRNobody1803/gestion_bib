@@ -71,6 +71,22 @@ pipeline {
             }
         }
 
+        stage('Analyze Metrics') {
+            steps {
+                echo '🔍 Analyzing code quality metrics...'
+                sh '''
+                    cd gestion_bib
+
+                    # Make script executable
+                    chmod +x analyze-metrics.sh
+
+                    # Run analysis script
+                    ./analyze-metrics.sh
+                '''
+            }
+        }
+
+
         /* stage('SonarQube Analysis') {
             steps {
                 echo '🔎 Running SonarQube analysis...'
