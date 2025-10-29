@@ -27,18 +27,25 @@ pipeline {
             steps {
                 echo '📊 Running CKJM analysis...'
                 sh '''
-                    # Download CKJM if not present
+                    # Download CKJM JAR directly if not already present
                     if [ ! -f ckjm-1.8.jar ]; then
-                        echo "Downloading CKJM..."
-                        curl -L -o ckjm-1.8.jar https://www.spinellis.gr/sw/ckjm/ckjm-1.8.jar
+                        echo "Downloading CKJM (Java Metrics Tool)..."
+                        curl -L -o ckjm-1.8.jar https://www.spinellis.gr/ckjm/ckjm-1.8.jar
+                    fi
+
+                    # Verify that the jar file exists and is valid
+                    if [ ! -s ckjm-1.8.jar ]; then
+                        echo "❌ Download failed — empty or invalid file."
+                        exit 1
                     fi
 
                     # Run CKJM on compiled classes
-                    java -jar ckjm-1.8.jar bin/library/**/*.class > metrics.txt
-                    echo "Metrics generated in metrics.txt"
+                    java -jar ckjm-1.8.jar out/production/Gestion-Mg/**/*.class > metrics.txt
+                    echo "✅ Metrics generated in metrics.txt"
                 '''
             }
         }
+
 
         stage('SonarQube Analysis') {
             steps {
