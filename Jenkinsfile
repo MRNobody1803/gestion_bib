@@ -55,9 +55,11 @@ pipeline {
 
                     # Make script executable
                     chmod +x analyze-metrics1.sh
+                    chmod +x analyze-metrics-table.sh
 
                     # Run analysis script
                     ./analyze-metrics1.sh
+                    ./analyze-metrics-table.sh
                 '''
             }
         }
