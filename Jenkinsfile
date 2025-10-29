@@ -54,10 +54,10 @@ pipeline {
                     cd gestion_bib
 
                     # Make script executable
-                    chmod +x analyze-metrics.sh
+                    chmod +x analyze-metrics1.sh
 
                     # Run analysis script
-                    ./analyze-metrics.sh
+                    ./analyze-metrics1.sh
                 '''
             }
         }
