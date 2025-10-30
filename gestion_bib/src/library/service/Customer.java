@@ -26,4 +26,8 @@ public class Customer {
             item.returnItem();
         }
     }
+
+    public boolean hasBorrowed(Lendable item) {
+        return checkedOutItems.contains(item);
+    }
 }
