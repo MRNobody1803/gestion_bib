@@ -4,4 +4,6 @@ package library.model;
 public interface Lendable {
     void borrow();
     void returnItem();
+    boolean isBorrowed();  // Ajouter cette méthode
+    String getDisplayInfo(); // Ajouter pour l'affichage
 }

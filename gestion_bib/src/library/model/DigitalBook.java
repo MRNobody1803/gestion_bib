@@ -8,6 +8,13 @@ public class DigitalBook extends Book {
         this.fileSizeMB = fileSizeMB;
     }
 
+    @Override
+    public String getDisplayInfo() {
+        String status = isBorrowed() ? " [Emprunté]" : " [Disponible]";
+        return getTitle() + " par " + getAuthor() +
+                " (" + fileSizeMB + " MB)" + status;
+    }
+
     public int getFileSizeMB() {
         return fileSizeMB;
     }

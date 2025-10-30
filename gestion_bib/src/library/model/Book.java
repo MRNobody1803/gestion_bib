@@ -16,7 +16,7 @@ public class Book implements Lendable {
 
     @Override
     public void borrow() {
-        if (!borrowed) {
+        if (isBorrowed()) {
             borrowed = true;
         } else {
             System.out.println("This book is already borrowed.");
@@ -34,18 +34,27 @@ public class Book implements Lendable {
 
     public String getTitle() { return title; }
     public String getAuthor() { return author; }
-    public boolean isBorrowed() { return borrowed; }
+    @Override
+    public boolean isBorrowed() { return !borrowed; }
 
-    // Méthode volontairement complexe pour TP SonarQube
     public void complexMethodExample(int n) {
         for (int i = 0; i < n; i++) {
-            if (i % 2 == 0) {
-                System.out.println(i + " is even");
-            } else if (i % 3 == 0) {
-                System.out.println(i + " divisible by 3");
-            } else {
-                System.out.println(i + " something else");
-            }
+            System.out.println(classifyNumber(i));
         }
+    }
+
+    private String classifyNumber(int number) {
+        if (number % 2 == 0) {
+            return number + " is even";
+        } else if (number % 3 == 0) {
+            return number + " divisible by 3";
+        } else {
+            return number + " something else";
+        }
+    }
+
+    @Override
+    public String getDisplayInfo() {
+        return title + " by " + author + (borrowed ? " [Borrowed]" : " [Available]");
     }
 }
